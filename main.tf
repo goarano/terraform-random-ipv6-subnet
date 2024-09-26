@@ -3,7 +3,7 @@ resource "random_id" "address_bytes" {
 }
 
 resource "terraform_data" "random_ip" {
-  input = format("%s::/%s",
+  input = format("%s%s/%s",
     join(":",
       [for i in range(ceil(var.prefix/16)) :
         format("%-04s",
@@ -11,6 +11,7 @@ resource "terraform_data" "random_ip" {
         )
       ]
     ),
+    var.prefix <= 112 ? "::" : "",
     var.prefix
   )
 }
