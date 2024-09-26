@@ -14,3 +14,10 @@ resource "terraform_data" "random_ip" {
     var.prefix
   )
 }
+
+resource "terraform_data" "random_private_ip" {
+  input = format("f%s%s",
+    "c",
+    substr(terraform_data.random_ip.output, 2, length(terraform_data.random_ip.output)-2)
+  )
+}
