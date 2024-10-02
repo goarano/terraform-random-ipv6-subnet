@@ -1,4 +1,4 @@
 output "subnet" {
-  value       = var.private ? cidrsubnet(terraform_data.random_private_ip.output, 0, 0) : cidrsubnet(terraform_data.random_ip.output, 0, 0)
+  value       = var.private ? cidrsubnet(local.random_private_ip, 0, 0) : cidrsubnet(local.random_ip, 0, 0)
   description = "A random IPv6 subnet"
 }

@@ -2,8 +2,8 @@ resource "random_id" "address_bytes" {
   byte_length = ceil(var.prefix/8)
 }
 
-resource "terraform_data" "random_ip" {
-  input = format("%s%s/%s",
+locals {
+  random_ip = format("%s%s/%s",
     join(":",
       [for i in range(ceil(var.prefix/16)) :
         format("%-04s",
@@ -14,11 +14,9 @@ resource "terraform_data" "random_ip" {
     var.prefix <= 112 ? "::" : "",
     var.prefix
   )
-}
 
-resource "terraform_data" "random_private_ip" {
-  input = format("f%s%s",
+  random_private_ip = format("f%s%s",
     "c",
-    substr(terraform_data.random_ip.output, 2, length(terraform_data.random_ip.output)-2)
+    substr(local.random_ip, 2, length(local.random_ip)-2)
   )
 }
